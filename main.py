@@ -1,3 +1,8 @@
+# Proyecto Integrador Curso Python Inicial
+# Dictado por Inove School
+# Alumno: Nicolas Cersosimo
+# GitHub: https://github.com/ncersosimo/proyecto_inicial_python.git
+
 import random, interfaz
 
 def leer_palabra_secreta(palabras):
@@ -9,19 +14,55 @@ def leer_palabra_secreta(palabras):
 
 
 def pedir_letra(letras_usadas):
-    cadena = ""
+    # Inicializo las variables a utilizar.
+    cadena_1 = "Ingrese"
+    cadena_2 = ""
+
     while True:
-        letra_ingresada = str(input(f"Ingrese una {cadena}letra:\n")).lower()
-        if letra_ingresada in (letras_usadas):
-            print("La letra ingresada ya ha sido utilizada!!!")
-            cadena = "nueva "
-        else:
-            letras_usadas.append(letra_ingresada)
-            break
+        # Solicito al usuario el ingreso de una letra.
+        letra_ingresada = str(input(f"{cadena_1} una {cadena_2}letra"
+                                    + " del alfabeto(a-z):\n")).lower()
+        # Verifico si la longitud de
+        # lo ingresado por el usuario es uno 
+        if len(letra_ingresada) == 1:
+            # Verifico si el caracter ingresado es
+            # una letra del alfabeto (a-z)
+            if letra_ingresada.isalpha():
+                # Verifico que si la letra no ha sido ingresada
+                # la guardo en la lista
+                if letra_ingresada not in (letras_usadas):
+                    letras_usadas.append(letra_ingresada)
+                    break                
+                else:
+                    # Si la letra ha sido ingresada con anterioridad
+                    print(f"La letra '{letra_ingresada}'"
+                          + " ya ha sido ingresada!")                    
+                    cadena_1 = "ingrese"
+                    cadena_2 = "nueva "
+                    print("Por favor, ", end="")
+            else:
+                # Si el caracter no es una
+                # letra del alfabeto (a-z)
+                cadena_1 = "ingrese"
+                cadena_2 = ""
+                print(f"El caracter '{letra_ingresada}' no es una letra."
+                      + " Por favor, ", end="")
+        elif len(letra_ingresada) > 1:
+            # Si se ha ingresado más de un caracter
+            cadena_1 = "ingrese"
+            cadena_2 = ""
+            print("Debe ingresar un caracter a la vez. Por favor, ", end="")
+        elif len(letra_ingresada) == 0:
+            # Si no se ha ingresado ningún caracter
+            cadena_1 = "ingrese"
+            cadena_2 = ""
+            print("Debe ingresar un caracter. Por favor, ", end="")
     return letra_ingresada
 
 
 def verificar_letra(letra, palabra_secreta):
+    # Verifico que la letra ingresada
+    # es parte de la palabra secreta a adivinar
     if letra in (palabra_secreta):
         letra_valida = True
     else:
@@ -30,8 +71,24 @@ def verificar_letra(letra, palabra_secreta):
 
 
 def validar_palabra(letras_usadas, palabra_secreta):
-    palabra_valida = True
-    return palabra_valida
+    # Inicializo la variable
+    cantidad_letras = 0
+    # Recorro las letras ingresadas por el usuario
+    for caracter in range(len(letras_usadas)):
+        # Recorro las letras de la palabra secreta
+        # a adivinar
+        for letra in range(len(palabra_secreta)):
+            # Por cada letra de las letras ingresadas por el usuario
+            # Verifico si se encuentra en la palabra secreta
+            if letras_usadas[caracter] == palabra_secreta[letra]:
+                # Si coinciden, la sumo a la variable cantidad_letras
+                cantidad_letras += 1
+    # Verifico que las letras ingresadas por el usuario
+    # puedan formar la palabra secreta a adivinar
+    if cantidad_letras == len(palabra_secreta):
+        return True
+    else:
+        return False
 
 
 if __name__ == "__main__":
@@ -45,7 +102,6 @@ if __name__ == "__main__":
     # Leer la palabra secreta de una lista.
     palabras = ["listas", "bucles", "variables"]
     palabra_secreta = leer_palabra_secreta(palabras)
-    print(f"palabra_secreta: {palabra_secreta}")
 
     # Esto se realiza para que el jugador pueda ver al principio
     # la cantidad de letras de la palabra a adivinar.
